@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<player>
+    <units>
+        <unit>
+            <type>soldier</type>
+            <coordx>2</coordx>
+            <coordy>3</coordy>
+        </unit>
+         	
+        <unit>
+            <type>soldier</type>
+            <coordx>2</coordx>
+            <coordy>10</coordy>
+        </unit>
+    </units>
+    
+    <buildings>
+        <building>
+            <type></type>
+            <coordx></coordx>
+            <coordy></coordy>
+        </building>
+        
+        <building>
+            <type></type>
+            <coordx></coordx>
+            <coordy></coordy>
+        </building>
+    </buildings>
+</player>
+
+<player>
+    <units>
+        <unit>
+           <type>soldier</type>
+            <coordx>20</coordx>
+            <coordy>3</coordy> 
+        </unit>
+        
+        <unit>
+           <type>soldier</type>
+            <coordx>20</coordx>
+            <coordy>10</coordy> 
+        </unit>
+    </units>
+    
+    <buildings>
+        <building>
+            <type></type>
+            <coordx></coordx>
+            <coordy></coordy>
+        </building>
+        
+        <building>
+            <type></type>
+            <coordx></coordx>
+            <coordy></coordy>
+        </building>
+    </buildings>
+</player>

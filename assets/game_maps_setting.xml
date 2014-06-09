@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Maps>
+    <Map
+        name="map0"
+        rows="15"
+        columns="25"
+        resource="projectwar.tmx"
+        playersSetting="map0_players_setting.xml">
+    </Map>
+    
+    <Map
+        name="map1"
+        rows="30"
+        columns="30"
+        resource="projectwar_map.tmx"
+        playersSetting="map1_players_setting.xml">
+    </Map>
+</Maps>

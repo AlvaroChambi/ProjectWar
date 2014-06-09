@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<players>
+	<player>
+	    <id>0</id>
+	    <type>Player</type>
+	    <name>PlayerOne</name>
+	    <units>
+	        <unit
+	            id="0"
+	            type="soldier"
+	            coordx="5"
+	            coordy="3">
+	            
+	        </unit>
+	
+	        <unit
+	            id="1"
+	            type="soldier"
+	            coordx="5"
+	            coordy="10">  
+	        </unit>
+	        
+	        <unit
+	            id="2"
+	            type="soldier"
+	            coordx="6"
+	            coordy="6">  
+	        </unit>
+	        
+	        <unit
+	            id="3"
+	            type="soldier"
+	            coordx="3"
+	            coordy="7">  
+	        </unit>
+	    </units>
+	    
+	    <buildings>
+	        <building>
+	            <type></type>
+	            <coordx></coordx>
+	            <coordy></coordy>
+	        </building>
+	        
+	        <building>
+	            <type></type>
+	            <coordx></coordx>
+	            <coordy></coordy>
+	        </building>
+	    </buildings>
+	</player>
+	
+	<player>
+	    <id>1</id>
+	    <type>IAPlayer</type>
+	    <name>PlayerTwo</name>
+	    <units>
+	        <unit
+	            id="4"
+	            type="soldier"
+	            coordx="20"
+	            coordy="3">
+	            
+	        </unit>
+	        
+	        <unit
+	            id="5"
+	            type="soldier"
+	            coordx="20"
+	            coordy="10">
+	            
+	        </unit>
+	    </units>
+	    
+	    <buildings>
+	        <building>
+	            <type></type>
+	            <coordx></coordx>
+	            <coordy></coordy>
+	        </building>
+	        
+	        <building>
+	            <type></type>
+	            <coordx></coordx>
+	            <coordy></coordy>
+	        </building>
+	    </buildings>
+	</player>
+</players>

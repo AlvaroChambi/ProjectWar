@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="pat0" tilewidth="32" tileheight="32" spacing="3" margin="2">
+  <image source="gfx/desert_tiled.png" width="281" height="211"/>
+ </tileset>
+ <layer name="Capa de Patrones 1" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0zEBAAAIAkGSGMH+8azgiPjD7c9ASSoACNcGDUkbnFqAK7a/+fKvLzsBdwP/mGnZ
+  </data>
+ </layer>
+</map>
