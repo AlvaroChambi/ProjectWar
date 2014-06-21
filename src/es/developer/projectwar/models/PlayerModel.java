@@ -5,11 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
-import es.developer.projectwar.controllers.states.NothingSelectedState;
-import es.developer.projectwar.controllers.states.PlayerState;
+import es.developer.projectwar.controllers.playerstates.NothingSelectedState;
+import es.developer.projectwar.controllers.playerstates.PlayerState;
 import es.developer.projectwar.utils.TextureRegionFactory.TextureType;
 import es.developer.projectwar.utils.UpdateInput;
-import es.developer.projectwar.views.IObserver;
 
 public class PlayerModel extends MovableModel {
 	private final static String TAG = PlayerModel.class.getCanonicalName();
@@ -22,7 +21,7 @@ public class PlayerModel extends MovableModel {
 	private boolean active;
 
 	public PlayerModel(){
-		this.observers = new ArrayList<IObserver>();
+		super();
 		this.setTextureType(TextureType.player);
 		this.setResource("selected_tile.png");
 		units = new ArrayList<UnitModel>();

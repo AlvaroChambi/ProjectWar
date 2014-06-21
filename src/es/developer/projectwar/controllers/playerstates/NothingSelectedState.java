@@ -1,4 +1,4 @@
-package es.developer.projectwar.controllers.states;
+package es.developer.projectwar.controllers.playerstates;
 
 import org.andengine.extension.tmx.TMXTile;
 
@@ -11,8 +11,8 @@ public class NothingSelectedState implements PlayerState{
 			TMXTile position, int id){
 		switch(input){
 		case BuildingTouched:
-			playerModel.setState(new BuildingSelectedState(id));
-			playerModel.getState().enter(playerModel, position);
+//			playerModel.setState(new BuildingSelectedState(id));
+//			playerModel.getState().enter(playerModel, position);
 			break;
 		case MapTouched:
 			playerModel.getState().enter(playerModel, position);

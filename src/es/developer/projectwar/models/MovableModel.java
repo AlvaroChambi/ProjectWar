@@ -11,6 +11,10 @@ public abstract class MovableModel extends Model{
 	protected TMXTile tilePosition;
 	protected int id;
 	private String resource;
+	
+	public MovableModel(){
+		super();
+	}
 
 	public void setPosition(TMXTile position) {
 		this.tilePosition = position;

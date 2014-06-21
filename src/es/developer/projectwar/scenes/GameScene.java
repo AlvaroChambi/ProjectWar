@@ -28,7 +28,8 @@ import es.developer.projectwar.drawers.UnitsDrawer;
 import es.developer.projectwar.map.Map;
 import es.developer.projectwar.map.MapModel;
 import es.developer.projectwar.models.PlayerModel;
-import es.developer.projectwar.scenes.huds.MenuHUD;
+import es.developer.projectwar.scenes.huds.AndroidNativeHUD;
+import es.developer.projectwar.scenes.huds.FragmentGameHUD;
 import es.developer.projectwar.scenes.listeners.SceneTouchListener;
 import es.developer.projectwar.scenes.sliders.SlidingMenu;
 import es.developer.projectwar.utils.parsers.MapsParser;
@@ -41,7 +42,7 @@ public class GameScene extends SimpleLayoutGameActivity{
 
 	private ZoomCamera camera;
 	private Scene scene;
-	private MenuHUD menuHUD;
+	private AndroidNativeHUD menuHUD;
 	private Game game;
 	
 	@Override
@@ -70,7 +71,7 @@ public class GameScene extends SimpleLayoutGameActivity{
 	protected void onSetContentView() {
 		super.onSetContentView();
 		Log.i(TAG,"onSetContentView");
-		menuHUD = this.setMenuFragment();
+		menuHUD = (AndroidNativeHUD)this.setMenuFragment();
 	}
 
 	@Override
@@ -118,7 +119,7 @@ public class GameScene extends SimpleLayoutGameActivity{
 		game = new Game(GameMode.Local);
 		game.setPlayers(players);
 		this.loadPlayers(players, touchListener);
-		menuHUD.registerGame(game);
+		menuHUD.setGame(game);
 	}
 	
 	private void loadPlayers(List<PlayerModel> players, SceneTouchListener touchListener){
@@ -133,22 +134,22 @@ public class GameScene extends SimpleLayoutGameActivity{
 			//Set the unit click events listeners the actual player controller and the gameController for every player
 			unitsDrawer.setListener(playerController);
 			unitsDrawer.setListener(gameController);
-			menuHUD.registerEventsHandler(playerController);
+			menuHUD.registerPlayerCommandListener(playerController);
 			//Set the HUD as an unit observer so it can be notified and display all the relevant info
 			unitsDrawer.registerUnitsObserver(menuHUD);
 			gameController.registerController(playerController);
 		}
-		menuHUD.registerGameController(gameController);
+		menuHUD.registerGameCommandListener(gameController);
 	}
 	
 	 //Add player action HUD to the main scene and return the fragment that contains it
 
-	private MenuHUD setMenuFragment() {
+	private FragmentGameHUD setMenuFragment() {
 		SlidingMenu drawer = (SlidingMenu) this.findViewById(R.id.drawer_layout);
 		drawer.setScrimColor(Color.TRANSPARENT.getABGRPackedInt());
 		drawer.openDrawer(Gravity.RIGHT);
 		FragmentManager manager = this.getFragmentManager();
-		return (MenuHUD) manager.findFragmentById(R.id.menu_hud_fragment);
+		return (FragmentGameHUD) manager.findFragmentById(R.id.menu_hud_fragment);
 	}
 	
 	/**

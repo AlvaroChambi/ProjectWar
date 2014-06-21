@@ -1,20 +1,19 @@
-package es.developer.projectwar.controllers.states;
+package es.developer.projectwar.controllers.playerstates;
 
 import org.andengine.extension.tmx.TMXTile;
 
-import android.util.Log;
 import es.developer.projectwar.controllers.UnitController;
+import es.developer.projectwar.controllers.unitstates.SelectedState;
 import es.developer.projectwar.models.PlayerModel;
 import es.developer.projectwar.models.UnitModel;
 
 public class UnitSelectedState implements PlayerState{
-	private static final String TAG = UnitSelectedState.class.getCanonicalName();
+//	private static final String TAG = UnitSelectedState.class.getCanonicalName();
 	private UnitController controller;
 	private int id;
 	
 	public UnitSelectedState( int id ){
 		this.id = id;
-		controller = new UnitController();
 	}
 	
 	//Think about moving all unit related code to a UnitController, but just think for now...
@@ -26,23 +25,18 @@ public class UnitSelectedState implements PlayerState{
 
 		switch(input){
 		case BuildingTouched:
-			unitModel.cleanEnabledTiles();
-			playerModel.setState( new BuildingSelectedState(id) );
-			playerModel.getState().enter(playerModel, position);
+//			unitModel.cleanEnabledTiles();
+//			playerModel.setState( new BuildingSelectedState(id) );
+//			playerModel.getState().enter(playerModel, position);
 			break;
 		case MapTouched:
-			//if the input touched tile is reachable for the unit and the unit is available it has to move to the 
-			//destination, otherwise just switch the state
-			if( unitModel.isAvailable() && 
-						controller.isUnitGridTouched( unitModel, position ) ){
-				controller.moveUnit(unitModel, position);
-				unitModel.cleanEnabledTiles();
-				Log.i(TAG,"moving unit " + id);
-			}else {
-				unitModel.cleanEnabledTiles();
+			/*If the move request isn't successfully executed, means that the player has a selected a non-reachable 
+			 * position, so we get into a NothingSelectedState*/
+			if(!controller.onMoveRequest(position)){
 				playerModel.setState( new NothingSelectedState() );
 				playerModel.getState().enter(playerModel, position);
 			}
+			
 			break;
 		case UnitTouched:
 			unitModel.cleanEnabledTiles();
@@ -57,8 +51,13 @@ public class UnitSelectedState implements PlayerState{
 	@Override
 	public void enter(PlayerModel player, TMXTile position) {
 		UnitModel unit = player.getUnit(this.id);
+		//Each time we select a unit we instance an UnitController to handle all his inputs
+		unit.setState(new SelectedState());
+		unit.getState().enter(unit);
+		controller = new UnitController(unit);
+		
 		TMXTile unitPosition = unit.getPosition();
 		player.setPosition(unitPosition);
-		controller.selectUnit(unit, player);
+		player.setSelectedUnit(unit);
 	}
 }

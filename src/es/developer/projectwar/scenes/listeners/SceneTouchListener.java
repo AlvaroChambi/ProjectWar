@@ -12,7 +12,7 @@ import org.andengine.input.touch.detector.PinchZoomDetector;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 
 import android.util.Log;
-import es.developer.projectwar.drawers.listeners.IPlayerEventsListener;
+import es.developer.projectwar.controllers.PlayerEventsHandler;
 import es.developer.projectwar.map.Map;
 import es.developer.projectwar.scenes.camera.ScrollHandler;
 import es.developer.projectwar.scenes.camera.ZoomEventHandler;
@@ -21,7 +21,7 @@ public class SceneTouchListener implements IOnSceneTouchListener{
 	private static final String TAG = SceneTouchListener.class.getCanonicalName();
 	private PinchZoomDetector zoomDetector;
 	private SurfaceScrollDetector scrollDetector;
-	private List<IPlayerEventsListener> listeners;
+	private List<PlayerEventsHandler> listeners;
 	private boolean scrolled ;
 	private float posX ;
 	private float  posY ;
@@ -30,7 +30,7 @@ public class SceneTouchListener implements IOnSceneTouchListener{
 		this.scrolled = false;
 		this.zoomDetector = new PinchZoomDetector(new ZoomEventHandler(camera));
 		this.scrollDetector = new SurfaceScrollDetector(new ScrollHandler(camera));
-		listeners = new ArrayList<IPlayerEventsListener>();
+		listeners = new ArrayList<PlayerEventsHandler>();
 	}
 
 	@Override
@@ -79,14 +79,14 @@ public class SceneTouchListener implements IOnSceneTouchListener{
 		return scrolled;
 	}
 
-	public void setPlayerEventsListener(IPlayerEventsListener listener){
+	public void setPlayerEventsListener(PlayerEventsHandler listener){
 		listeners.add(listener);
 	}
 	
 	private void notifyListeners(TouchEvent pSceneTouchEvent){
-		Iterator <IPlayerEventsListener> iterator = listeners.iterator();
+		Iterator <PlayerEventsHandler> iterator = listeners.iterator();
 		while(iterator.hasNext()){
-			final IPlayerEventsListener listener = iterator.next();
+			final PlayerEventsHandler listener = iterator.next();
 			listener.onMapClicked(Map.getInstance().getTile(pSceneTouchEvent.getX(), 
 					pSceneTouchEvent.getY()));
 		}

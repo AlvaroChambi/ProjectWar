@@ -6,7 +6,7 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 
 import android.util.Log;
-import es.developer.projectwar.drawers.listeners.IPlayerEventsListener;
+import es.developer.projectwar.controllers.PlayerEventsHandler;
 import es.developer.projectwar.models.UnitModel;
 import es.developer.projectwar.utils.UpdateInput;
 import es.developer.projectwar.views.pools.MapTilePool;
@@ -37,6 +37,7 @@ public class UnitView extends MovableView{
 			this.animate();
 			break;
 		case UNIT_SELECTED:
+			//Just showing tiles if the unit is active, so there is something in the enabled tiles list
 			this.showEnabledTiles();
 			break;
 		case UNIT_UNSELECTED:
@@ -91,7 +92,7 @@ public class UnitView extends MovableView{
 		this.tilesPool = pool;
 	}
 	
-	public void setListener(IPlayerEventsListener listener){
+	public void setListener(PlayerEventsHandler listener){
 		sprite.setListener(listener);
 	}
 }

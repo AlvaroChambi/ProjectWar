@@ -1,5 +1,6 @@
 package es.developer.projectwar.models;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,7 +11,12 @@ import es.developer.projectwar.views.IObserver;
 public abstract class Model implements IObservable{
 
 	protected List<IObserver> observers;
+	//TODO remove texture to a lower implementation of this superclass
 	private TextureType textureType;
+	
+	public Model(){
+		this.observers = new ArrayList<IObserver>();
+	}
 
 	@Override
 	public void registerObserver(IObserver observer) {

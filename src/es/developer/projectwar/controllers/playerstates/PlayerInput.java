@@ -1,4 +1,4 @@
-package es.developer.projectwar.controllers.states;
+package es.developer.projectwar.controllers.playerstates;
 
 public enum PlayerInput {   
 	UnitTouched,

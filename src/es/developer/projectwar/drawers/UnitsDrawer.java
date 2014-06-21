@@ -9,7 +9,7 @@ import org.andengine.extension.tmx.TMXTile;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import android.util.Log;
-import es.developer.projectwar.drawers.listeners.IPlayerEventsListener;
+import es.developer.projectwar.controllers.PlayerEventsHandler;
 import es.developer.projectwar.models.MovableModel;
 import es.developer.projectwar.models.UnitModel;
 import es.developer.projectwar.views.IObserver;
@@ -39,7 +39,7 @@ public class UnitsDrawer extends DynamicGameDrawer{
 	}
 
 	@Override
-	public void setListener(IPlayerEventsListener listener) {
+	public void setListener(PlayerEventsHandler listener) {
 		for(UnitView view: views){
 			view.setListener(listener);
 		}	

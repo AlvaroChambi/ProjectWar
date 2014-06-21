@@ -3,13 +3,12 @@ package es.developer.projectwar.controllers;
 import org.andengine.extension.tmx.TMXTile;
 
 import android.util.Log;
-import es.developer.projectwar.controllers.commands.PlayerCommand;
-import es.developer.projectwar.controllers.states.PlayerInput;
-import es.developer.projectwar.controllers.states.PlayerState;
-import es.developer.projectwar.drawers.listeners.IPlayerEventsListener;
+import es.developer.projectwar.controllers.commands.Command;
+import es.developer.projectwar.controllers.playerstates.PlayerInput;
+import es.developer.projectwar.controllers.playerstates.PlayerState;
 import es.developer.projectwar.models.PlayerModel;
 
-public class PlayerController implements IController, IPlayerEventsListener{
+public class PlayerController implements IController, PlayerEventsHandler, IPlayerCommandListener{
 	private static final String TAG = PlayerController.class.getCanonicalName();
 	private PlayerModel player;
 	private final int NO_ID = -1;
@@ -46,9 +45,8 @@ public class PlayerController implements IController, IPlayerEventsListener{
 	}
 
 	@Override
-	public void onCommandSelected(PlayerCommand command) {
-		//TODO just executing the command to show that is has been received correctly
-		command.execute();
+	public void onPlayerCommandReceived(Command command) {
+		Log.i(TAG, "command received " + command.toString());
 	}
 
 	@Override

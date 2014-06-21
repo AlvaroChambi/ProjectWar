@@ -8,9 +8,9 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 
 import es.developer.projectwar.controllers.commands.Command;
+import es.developer.projectwar.controllers.unitstates.UnitState;
 import es.developer.projectwar.utils.TextureRegionFactory.TextureType;
 import es.developer.projectwar.utils.UpdateInput;
-import es.developer.projectwar.views.IObserver;
 
 public abstract class UnitModel extends MovableModel{
 //	private static final String TAG = UnitModel.class.getCanonicalName();
@@ -20,9 +20,10 @@ public abstract class UnitModel extends MovableModel{
 	private PathModifier pathModifier;
 	protected List<Command> commands;
 	private boolean available;
+	private UnitState state;
 	
 	public UnitModel(int id){
-		this.observers = new ArrayList<IObserver>();
+		super();
 		enabledTilesView = new ArrayList<Sprite>();
 		setCommands(new ArrayList<Command>());
 		this.setAvailable(true);
@@ -114,5 +115,17 @@ public abstract class UnitModel extends MovableModel{
 	 */
 	public void setTargeted(){
 		this.notifyListenersUpdate(UpdateInput.TARGETED_UNIT);
+	}
+	/**
+	 * @return the state
+	 */
+	public UnitState getState() {
+		return state;
+	}
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(UnitState state) {
+		this.state = state;
 	}
 }

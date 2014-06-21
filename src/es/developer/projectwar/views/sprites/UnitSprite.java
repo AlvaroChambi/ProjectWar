@@ -11,12 +11,12 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.util.Log;
-import es.developer.projectwar.drawers.listeners.IPlayerEventsListener;
+import es.developer.projectwar.controllers.PlayerEventsHandler;
 
 public class UnitSprite extends AnimatedSprite{
 	private final static String TAG = UnitSprite.class.getCanonicalName();
 	private int spriteId;
-	private List<IPlayerEventsListener> listeners;
+	private List<PlayerEventsHandler> listeners;
 	private Timer timer;
 	private boolean active;
 
@@ -24,7 +24,7 @@ public class UnitSprite extends AnimatedSprite{
 			ITiledTextureRegion pTiledTextureRegion,
 			VertexBufferObjectManager pVertexBufferObjectManager) {
 		super(pX, pY, pTiledTextureRegion, pVertexBufferObjectManager);
-		this.listeners = new ArrayList<IPlayerEventsListener>();
+		this.listeners = new ArrayList<PlayerEventsHandler>();
 		timer = new Timer();
 		active = true;
 	}
@@ -44,7 +44,7 @@ public class UnitSprite extends AnimatedSprite{
 	}
 	
 	public void notifyListeners(){
-		for(IPlayerEventsListener listener: listeners){
+		for(PlayerEventsHandler listener: listeners){
 			listener.onUnitClicked(this.spriteId);
 		}
 	}
@@ -52,7 +52,7 @@ public class UnitSprite extends AnimatedSprite{
 	/**
 	 * @param listener the listener to set
 	 */
-	public void setListener(IPlayerEventsListener listener) {
+	public void setListener(PlayerEventsHandler listener) {
 		listeners.add(listener);
 	}
 	/**

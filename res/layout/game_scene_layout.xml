@@ -13,7 +13,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
    <fragment
         android:id="@+id/menu_hud_fragment"
-        android:name="es.developer.projectwar.scenes.huds.MenuHUD"
+        android:name="es.developer.projectwar.scenes.huds.AndroidNativeHUD"
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"

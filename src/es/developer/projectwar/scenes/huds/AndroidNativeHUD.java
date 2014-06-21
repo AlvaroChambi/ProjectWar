@@ -1,6 +1,5 @@
 package es.developer.projectwar.scenes.huds;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,31 +8,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import es.developer.projectwar.Game;
 import es.developer.projectwar.R;
-import es.developer.projectwar.controllers.GameController;
-import es.developer.projectwar.drawers.listeners.IPlayerEventsListener;
+import es.developer.projectwar.controllers.IGameCommandListener;
+import es.developer.projectwar.controllers.IPlayerCommandListener;
 import es.developer.projectwar.models.PlayerModel;
 import es.developer.projectwar.models.UnitModel;
 import es.developer.projectwar.scenes.adapters.MenuHUDAdapter;
-import es.developer.projectwar.scenes.listeners.MenuHUDListener;
+import es.developer.projectwar.scenes.listeners.AndroidHUDListener;
 import es.developer.projectwar.utils.UpdateInput;
-import es.developer.projectwar.views.IObserver;
 
-public class MenuHUD extends Fragment implements IGameHUD, IObserver{
-	private static final String TAG = MenuHUD.class.getCanonicalName();
+public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandHUD, IGameCommandHUD{
+	private static final String TAG = AndroidNativeHUD.class.getCanonicalName();
+	
 	private View rootView;
 	private Button finish;
-	private MenuHUDListener listener;
+	private AndroidHUDListener listener;
 	private TextView playerName, unitName, dayText;
 	private ListView commandsList;
-	private Game game;
-	private GameController gameController;
-
-	public MenuHUD(){
-		listener = new MenuHUDListener(this);
+	
+	public AndroidNativeHUD(){
+		listener = new AndroidHUDListener();
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,8 +43,9 @@ public class MenuHUD extends Fragment implements IGameHUD, IObserver{
 		finish.setOnClickListener(listener);
 		return rootView;
 	}
-
-	public void updateView(){	
+	
+	@Override
+	public void updateView() {
 		/*Need to post UI changes in the main thread, but i don't know why is that being executed in another thread,
 		maybe some opengl shit*/
 		getActivity().runOnUiThread(new Runnable(){
@@ -66,42 +63,26 @@ public class MenuHUD extends Fragment implements IGameHUD, IObserver{
 					unitName.setText("Soldier " + actualPlayer.getSelectedUnit().getId());
 					//Updates the commands that the adapter click listener have to handle, different units has different commands
 					listener.setCommands(actualPlayer.getSelectedUnit().getCommands());
-					commandsList.setAdapter(new MenuHUDAdapter(MenuHUD.this.getActivity(), 
+					commandsList.setAdapter(new MenuHUDAdapter(AndroidNativeHUD.this.getActivity(), 
 							actualPlayer.getSelectedUnit().getCommands()));
 				}
 			}
 		});	
 	}
-
-	@Override
-	public void registerEventsHandler(IPlayerEventsListener handler) {
-		listener.setEventsHandler(handler);
-	}
-
+	
 	@Override
 	public void onUpdateNotification(UpdateInput input) {
-		Log.i(TAG,"update notification");
-		switch(input){
-		case POSITION_CHANGED:
-			break;
-		case UNIT_SELECTED:
-			this.updateView();
-			break;
-		case UNIT_UNSELECTED:
-			break;
-		default:
-			break;
-		}
-	}	
+		this.updateView();
+	}
 	
-	public void registerGameController(GameController gameController){
-		this.gameController = gameController;
-		this.listener.setGameController(this.gameController);
+	@Override
+	public void registerGameCommandListener(IGameCommandListener listener) {
+		this.listener.setGameCommandListener(listener);
+		
 	}
 
-	public void registerGame(Game game){
-		this.game = game;
-		//Update hud info when the game is properly registered
-		this.updateView();
+	@Override
+	public void registerPlayerCommandListener(IPlayerCommandListener listener) {
+		this.listener.setPlayerCommandListener(listener);
 	}
 }

@@ -8,15 +8,13 @@ import java.util.List;
 import org.andengine.extension.tmx.TMXTile;
 
 import es.developer.projectwar.Game;
-import es.developer.projectwar.controllers.commands.PlayerCommand;
-import es.developer.projectwar.drawers.listeners.IPlayerEventsListener;
 import es.developer.projectwar.models.PlayerModel;
 /**
  * GameController receives all units click events
  * @author Leid
  *
  */
-public class GameController implements IController, IPlayerEventsListener {
+public class GameController implements IController, PlayerEventsHandler, IGameCommandListener {
 	//	private static final String TAG = GameController.class.getCanonicalName();
 	private Game game;
 	private LinkedList<PlayerModel> playersQueue;
@@ -48,8 +46,15 @@ public class GameController implements IController, IPlayerEventsListener {
 	}
 
 	@Override
-	public void onCommandSelected(PlayerCommand command) {
-	
+	public void onGameCommandReceived(GameCommand command) {
+		switch(command){
+		case End:
+			this.shiftPlayer();
+			break;
+		default:
+			break;
+		
+		}
 	}
 	
 	@Override
