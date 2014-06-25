@@ -5,10 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
-import es.developer.projectwar.controllers.playerstates.NothingSelectedState;
-import es.developer.projectwar.controllers.playerstates.PlayerState;
+import es.developer.projectwar.controllers.states.player.NothingSelectedState;
+import es.developer.projectwar.controllers.states.player.PlayerState;
 import es.developer.projectwar.utils.TextureRegionFactory.TextureType;
-import es.developer.projectwar.utils.UpdateInput;
 
 public class PlayerModel extends MovableModel {
 	private final static String TAG = PlayerModel.class.getCanonicalName();
@@ -70,23 +69,22 @@ public class PlayerModel extends MovableModel {
 		return unit;
 	}
 	
+	public boolean isUnitInAttackRange(UnitModel unit){
+		boolean result = false;
+		for(UnitModel target: this.getUnits()){
+			if(unit != null && unit.isInAttackRange(target)){
+				result = true;
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * @param selectedUnit the selectedUnit to set
 	 */
 	public void setSelectedUnit(UnitModel selectedUnit) {
 		this.selectedUnit = selectedUnit;
-		this.selectedUnit.notifyListenersUpdate(UpdateInput.UNIT_SELECTED);
-	}
-	
-	/**
-	 * Set the players selected unit
-	 * @param selectedUnit unit that has been selected by any player
-	 * @param input UpdateInput.UNIT_SELECTED if the player is the active one,
-	 * UpdateInput.OPPOSITE_UNIT_SELECTED otherwise
-	 */
-	public void setSelectedUnit(UnitModel selectedUnit, UpdateInput input){
-		this.selectedUnit = selectedUnit;
-		this.selectedUnit.notifyListenersUpdate(input);
+		//this.selectedUnit.notifyListenersUpdate(UpdateInput.UNIT_SELECTED);
 	}
 
 	public void cleanUnitsAvailableState() {

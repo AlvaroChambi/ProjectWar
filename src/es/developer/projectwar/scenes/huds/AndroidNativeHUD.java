@@ -1,7 +1,6 @@
 package es.developer.projectwar.scenes.huds;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import es.developer.projectwar.R;
+import es.developer.projectwar.controllers.GameCommand;
 import es.developer.projectwar.controllers.IGameCommandListener;
 import es.developer.projectwar.controllers.IPlayerCommandListener;
 import es.developer.projectwar.models.PlayerModel;
@@ -18,7 +18,7 @@ import es.developer.projectwar.scenes.listeners.AndroidHUDListener;
 import es.developer.projectwar.utils.UpdateInput;
 
 public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandHUD, IGameCommandHUD{
-	private static final String TAG = AndroidNativeHUD.class.getCanonicalName();
+//	private static final String TAG = AndroidNativeHUD.class.getCanonicalName();
 	
 	private View rootView;
 	private Button finish;
@@ -53,7 +53,6 @@ public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandH
 			@Override
 			public void run() {
 				String day = getString(R.string.day_text) + String.valueOf(game.getDay());
-				Log.i(TAG, "dayText: " + day);
 				dayText.setText(day);
 				playerName.setText(actualPlayer.getName());
 				UnitModel unit = actualPlayer.getSelectedUnit();
@@ -73,6 +72,16 @@ public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandH
 	@Override
 	public void onUpdateNotification(UpdateInput input) {
 		this.updateView();
+		switch(input){
+		/*Whenever a unit position change we send a notification to the game controller 
+		 *to update if it has some unit in his attack range
+		 */
+		case POSITION_CHANGED:
+			listener.notifyGameCommandListener(GameCommand.UpdateUnit);
+			break;
+		default:
+			break;	
+		}
 	}
 	
 	@Override
@@ -83,6 +92,6 @@ public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandH
 
 	@Override
 	public void registerPlayerCommandListener(IPlayerCommandListener listener) {
-		this.listener.setPlayerCommandListener(listener);
+		this.listener.addListener(listener);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import es.developer.projectwar.models.Model;
 import es.developer.projectwar.models.PlayerModel;
 import es.developer.projectwar.models.UnitModel;
+import es.developer.projectwar.utils.UpdateInput;
 
 public class Game extends Model{
 	public static final int FIRST_DAY = 1;
@@ -32,7 +33,7 @@ public class Game extends Model{
 	public void setActualPlayer(PlayerModel actualPlayer) {
 		this.actualPlayer = actualPlayer;
 		this.actualPlayer.setActive(true);
-		this.notifyListenersUpdate(null);
+		this.notifyListenersUpdate(UpdateInput.PLAYER_CHANGED);
 	}
 
 	/**
@@ -90,7 +91,7 @@ public class Game extends Model{
 	public void setDay(int day) {
 		this.day = day;
 		// send an update notification with no special parameters
-		this.notifyListenersUpdate(null);
+		this.notifyListenersUpdate(UpdateInput.DAY_CHANGED);
 	}
 
 	public enum GameMode{

@@ -4,8 +4,8 @@ import org.andengine.extension.tmx.TMXTile;
 
 import android.util.Log;
 import es.developer.projectwar.controllers.commands.Command;
-import es.developer.projectwar.controllers.playerstates.PlayerInput;
-import es.developer.projectwar.controllers.playerstates.PlayerState;
+import es.developer.projectwar.controllers.states.player.PlayerInput;
+import es.developer.projectwar.controllers.states.player.PlayerState;
 import es.developer.projectwar.models.PlayerModel;
 
 public class PlayerController implements IController, PlayerEventsHandler, IPlayerCommandListener{
@@ -23,7 +23,7 @@ public class PlayerController implements IController, PlayerEventsHandler, IPlay
 		if(player.isActive()){
 			PlayerState state = player.getState();
 			//too many parameters in handleInput, i don't really like that...
-			state.handleInput(PlayerInput.MapTouched, player, tile, NO_ID); 	
+			state.handleInput(PlayerInput.MapTouched, player, tile, NO_ID, null); 	
 		}
 	}
 
@@ -33,7 +33,7 @@ public class PlayerController implements IController, PlayerEventsHandler, IPlay
 		//we will just handle inputs if the player is active
 		if(player.isActive()){
 			PlayerState state = player.getState();
-			state.handleInput(PlayerInput.UnitTouched, player, null, id);
+			state.handleInput(PlayerInput.UnitTouched, player, null, id, null);
 		}
 	}
 
@@ -41,21 +41,32 @@ public class PlayerController implements IController, PlayerEventsHandler, IPlay
 	public void onBuildClicked(int id) {
 		Log.i( TAG, "Building clicked " + id );	
 		PlayerState state = player.getState();
-		state.handleInput(PlayerInput.BuildingTouched, player, null, id);
+		state.handleInput(PlayerInput.BuildingTouched, player, null, id, null);
 	}
 
 	@Override
 	public void onPlayerCommandReceived(Command command) {
 		Log.i(TAG, "command received " + command.toString());
+		if(player.isActive()){
+			PlayerState state = player.getState();
+			Log.i(TAG, "state: " + state.toString());
+			state.handleInput(PlayerInput.CommandReceived, player, null,NO_ID, command);	
+		}
+	}
+	
+	@Override
+	public void onUnitInRangeNotification() {
+		player.getState().handleInput(PlayerInput.UnitInRange, player, null, NO_ID, null);
 	}
 
 	@Override
 	public void onOppositeUnitClicked(PlayerModel player, int unitID) {
 		//Receives the click event from an unit that doesn't belong to this player
 		PlayerState state = player.getState();
-		state.handleInput(PlayerInput.OppositeUnitTouched, player, null, unitID);
+		state.handleInput(PlayerInput.OppositeUnitTouched, player, null, unitID, null);
 	}
 	
+	/*TODO Implement match method in a superclass*/
 	public boolean match(PlayerModel player){
 		boolean resul = false;
 		if(this.player.equals(player)){
@@ -63,7 +74,7 @@ public class PlayerController implements IController, PlayerEventsHandler, IPlay
 		}
 		return resul;
 	}
-	
+	//TODO unplement method in a superclass
 	public PlayerModel getPlayer(){
 		return player;
 	}

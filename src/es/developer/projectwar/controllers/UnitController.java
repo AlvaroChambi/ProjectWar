@@ -5,7 +5,7 @@ import org.andengine.extension.tmx.TMXTile;
 import es.developer.projectwar.controllers.commands.Command;
 import es.developer.projectwar.models.UnitModel;
 
-public class UnitController implements IController, IUnitCommandListener{
+public class UnitController implements IController{
 //	private static final String TAG = UnitController.class.getCanonicalName();
 	
 	private UnitModel unit;
@@ -27,5 +27,7 @@ public class UnitController implements IController, IUnitCommandListener{
 		return result;
 	}
 	
-	
+	public void onCommandReceived(Command command){
+		unit.getState().handleInput(command, unit, null);
+	}
 }

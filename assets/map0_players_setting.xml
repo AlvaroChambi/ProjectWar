@@ -8,7 +8,7 @@
 	        <unit
 	            id="0"
 	            type="soldier"
-	            coordx="5"
+	            coordx="15"
 	            coordy="3">
 	            
 	        </unit>
@@ -16,7 +16,7 @@
 	        <unit
 	            id="1"
 	            type="soldier"
-	            coordx="5"
+	            coordx="15"
 	            coordy="10">  
 	        </unit>
 	        

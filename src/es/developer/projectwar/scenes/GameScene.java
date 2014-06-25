@@ -130,7 +130,7 @@ public class GameScene extends SimpleLayoutGameActivity{
 			UnitsDrawer unitsDrawer = new UnitsDrawer(scene, this, player.getUnits());
 			unitsDrawer.loadResources();
 			PlayerController playerController = new PlayerController(player);
-			touchListener.setPlayerEventsListener(playerController);
+			touchListener.registerPlayerEventsListener(playerController);
 			//Set the unit click events listeners the actual player controller and the gameController for every player
 			unitsDrawer.setListener(playerController);
 			unitsDrawer.setListener(gameController);
@@ -139,7 +139,9 @@ public class GameScene extends SimpleLayoutGameActivity{
 			unitsDrawer.registerUnitsObserver(menuHUD);
 			gameController.registerController(playerController);
 		}
+		touchListener.registerPlayerEventsListener(gameController);
 		menuHUD.registerGameCommandListener(gameController);
+		menuHUD.registerPlayerCommandListener(gameController);
 	}
 	
 	 //Add player action HUD to the main scene and return the fragment that contains it

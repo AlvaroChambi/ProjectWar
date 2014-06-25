@@ -7,6 +7,7 @@ import java.util.List;
 import org.andengine.engine.camera.ZoomCamera;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
+import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.PinchZoomDetector;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
@@ -79,7 +80,7 @@ public class SceneTouchListener implements IOnSceneTouchListener{
 		return scrolled;
 	}
 
-	public void setPlayerEventsListener(PlayerEventsHandler listener){
+	public void registerPlayerEventsListener(PlayerEventsHandler listener){
 		listeners.add(listener);
 	}
 	
@@ -87,8 +88,12 @@ public class SceneTouchListener implements IOnSceneTouchListener{
 		Iterator <PlayerEventsHandler> iterator = listeners.iterator();
 		while(iterator.hasNext()){
 			final PlayerEventsHandler listener = iterator.next();
-			listener.onMapClicked(Map.getInstance().getTile(pSceneTouchEvent.getX(), 
-					pSceneTouchEvent.getY()));
+			TMXTile position = Map.getInstance().getTile(pSceneTouchEvent.getX(), 
+					pSceneTouchEvent.getY());
+			//If the position is null it means that the touch event cannot be casted to a map tile
+			if(position != null){
+				listener.onMapClicked(position);	
+			}
 		}
 	}
 }

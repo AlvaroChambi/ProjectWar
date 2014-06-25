@@ -1,5 +1,6 @@
 package es.developer.projectwar.scenes.listeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.util.Log;
@@ -15,15 +16,20 @@ import es.developer.projectwar.controllers.commands.Command;
 
 public class AndroidHUDListener implements OnClickListener, OnItemClickListener{
 	private static final String TAG = AndroidHUDListener.class.getCanonicalName();
-	private IPlayerCommandListener playerCommandListener;
 	private IGameCommandListener gameCommandListener;
 	private List<Command> commands;
-	
+	//TODO Change it as soon as i can
+	private List<IPlayerCommandListener> playerCommandListeners;
 
-	@Override	public void onItemClick(AdapterView<?> parent, View view, int position,
+	public AndroidHUDListener(){
+		playerCommandListeners = new ArrayList<IPlayerCommandListener>();
+	}
+
+	@Override	
+	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		playerCommandListener.onPlayerCommandReceived(commands.get(position));
-		
+		this.notifyListeners(commands.get(position));
+
 	}
 
 	@Override
@@ -37,13 +43,19 @@ public class AndroidHUDListener implements OnClickListener, OnItemClickListener{
 			break;
 		}
 	}
-
-
-	/**
-	 * @param playerCommandListener the playerCommandListener to set
-	 */
-	public void setPlayerCommandListener(IPlayerCommandListener playerCommandListener) {
-		this.playerCommandListener = playerCommandListener;
+	
+	public void addListener(IPlayerCommandListener listener){
+		playerCommandListeners.add(listener);
+	}
+	
+	public void notifyGameCommandListener(GameCommand command){
+		gameCommandListener.onGameCommandReceived(command);
+	}
+	
+	public void notifyListeners(Command command){
+		for(IPlayerCommandListener listener: playerCommandListeners){
+			listener.onPlayerCommandReceived(command);
+		}
 	}
 
 	/**

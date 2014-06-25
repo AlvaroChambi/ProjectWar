@@ -9,4 +9,5 @@ public interface PlayerEventsHandler {
 	public void onUnitClicked(int id);
 	public void onBuildClicked(int id);
 	public void onOppositeUnitClicked(PlayerModel player, int unitID);
+	public void onUnitInRangeNotification();
 }
