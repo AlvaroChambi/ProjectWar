@@ -2,17 +2,19 @@ package es.developer.projectwar.controllers.states.unit;
 
 import org.andengine.extension.tmx.TMXTile;
 
+import android.util.Log;
 import es.developer.projectwar.controllers.commands.Command;
 import es.developer.projectwar.controllers.commands.MoveCommand;
 import es.developer.projectwar.map.Map;
 import es.developer.projectwar.models.UnitModel;
 
 public class OnSelectedState extends UnitState{
-//	private static final String TAG = OnSelectedState.class.getCanonicalName();
+	private static final String TAG = OnSelectedState.class.getCanonicalName();
 	
 	public OnSelectedState(){
 		super();
 		addCommand(Command.Wait);
+		this.name = OnSelectedState.class.getSimpleName();
 	}
 
 	@Override
@@ -21,6 +23,9 @@ public class OnSelectedState extends UnitState{
 
 		switch(command){
 		case Attack:
+			unit.cleanEnabledTiles();
+			unit.setState(new OnAttackState(unit));
+			unit.getState().enter(unit);
 			break;
 		case Move:
 			if(isUnitGridTouched(unit, position)){
@@ -36,7 +41,7 @@ public class OnSelectedState extends UnitState{
 			break;
 		case UnitInRange:
 			addCommand(Command.Attack);
-			unit.setCommands(commandSet);
+			setUnitCommands(unit);
 			break;
 		default:
 			break;
@@ -47,6 +52,7 @@ public class OnSelectedState extends UnitState{
 	@Override
 	public void enter(UnitModel unit) {
 		/*Just draw the enabled tiles and update commands if the unit is available.*/
+		Log.i(TAG, "enter");
 		if(unit.isAvailable()){
 			unit.setCommands(commandSet);
 			unit.setEnabledTiles(Map.getInstance().getTilesEnabled(unit));	

@@ -1,6 +1,7 @@
 package es.developer.projectwar.scenes.huds;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,17 @@ import es.developer.projectwar.controllers.IPlayerCommandListener;
 import es.developer.projectwar.models.PlayerModel;
 import es.developer.projectwar.models.UnitModel;
 import es.developer.projectwar.scenes.adapters.MenuHUDAdapter;
-import es.developer.projectwar.scenes.listeners.AndroidHUDListener;
 import es.developer.projectwar.utils.UpdateInput;
 
 public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandHUD, IGameCommandHUD{
-//	private static final String TAG = AndroidNativeHUD.class.getCanonicalName();
+	private static final String TAG = AndroidNativeHUD.class.getCanonicalName();
 	
 	private View rootView;
 	private Button finish;
 	private AndroidHUDListener listener;
 	private TextView playerName, unitName, dayText;
+	//Only for debug purpose
+	private TextView playerState, unitState;
 	private ListView commandsList;
 	
 	public AndroidNativeHUD(){
@@ -38,6 +40,8 @@ public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandH
 		playerName = (TextView) rootView.findViewById(R.id.actual_player_name);
 		unitName = (TextView) rootView.findViewById(R.id.selected_unit_name);
 		dayText = (TextView) rootView.findViewById(R.id.game_day_text);
+		playerState = (TextView) rootView.findViewById(R.id.player_state);
+		unitState = (TextView) rootView.findViewById(R.id.unit_state);
 		commandsList = (ListView) rootView.findViewById(R.id.commands_list);
 		commandsList.setOnItemClickListener(listener);
 		finish.setOnClickListener(listener);
@@ -64,6 +68,9 @@ public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandH
 					listener.setCommands(actualPlayer.getSelectedUnit().getCommands());
 					commandsList.setAdapter(new MenuHUDAdapter(AndroidNativeHUD.this.getActivity(), 
 							actualPlayer.getSelectedUnit().getCommands()));
+					//Only for debug purpose
+					playerState.setText(actualPlayer.getState().getName());
+					unitState.setText(unit.getState().getName());
 				}
 			}
 		});	
@@ -71,6 +78,7 @@ public class AndroidNativeHUD extends FragmentGameHUD implements IPlayerCommandH
 	
 	@Override
 	public void onUpdateNotification(UpdateInput input) {
+		Log.i(TAG, "updateNotification " + input.toString());
 		this.updateView();
 		switch(input){
 		/*Whenever a unit position change we send a notification to the game controller 

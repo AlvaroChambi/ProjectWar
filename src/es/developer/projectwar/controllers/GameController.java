@@ -40,7 +40,7 @@ public class GameController implements IController, PlayerEventsHandler,
 		/*Each player handle his units click events, but in order to get a notification of 
 		 * other player unit's click events the GameController handles them*/
 		if(!game.getActualPlayer().containsUnit(id)){
-			this.notifyOppositeUnitCliked(game.getOwnerPlayer(id), id);
+			this.onOppositeUnitClicked(game.getOwnerPlayer(id), id);
 		}else {  //Whenever a unit of the actual player is clicked we search for a unit in range
 			this.searchUnitInRange(game.getActualPlayer().getSelectedUnit());
 		}
@@ -70,12 +70,24 @@ public class GameController implements IController, PlayerEventsHandler,
 
 	@Override
 	public void onOppositeUnitClicked(PlayerModel player, int unitID) {
-
+		//TODO Change it to save some kind of "reachable" state in the unit so we don't have to check if the unit is in range
+		/*Notifies if a opposite unit that is in the attack range of the selected unit is clicked*/
+		if(unitInAttackRange(player.getUnit(unitID))){
+			Log.i(TAG, "sending opposite unit clicked notification");
+			this.notifyOppositeUnitCliked(player, unitID);	
+		}
 	}
 
 	@Override
 	public void onPlayerCommandReceived(Command command) {
-		//
+		switch(command){
+		case Attack:
+			
+			break;
+		default:
+			break;
+		
+		}
 	}
 
 	@Override

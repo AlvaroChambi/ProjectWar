@@ -46,10 +46,9 @@ public class PlayerController implements IController, PlayerEventsHandler, IPlay
 
 	@Override
 	public void onPlayerCommandReceived(Command command) {
-		Log.i(TAG, "command received " + command.toString());
 		if(player.isActive()){
+			Log.i(TAG, "command received " + command.toString());
 			PlayerState state = player.getState();
-			Log.i(TAG, "state: " + state.toString());
 			state.handleInput(PlayerInput.CommandReceived, player, null,NO_ID, command);	
 		}
 	}
@@ -62,7 +61,7 @@ public class PlayerController implements IController, PlayerEventsHandler, IPlay
 	@Override
 	public void onOppositeUnitClicked(PlayerModel player, int unitID) {
 		//Receives the click event from an unit that doesn't belong to this player
-		PlayerState state = player.getState();
+		PlayerState state = this.player.getState();
 		state.handleInput(PlayerInput.OppositeUnitTouched, player, null, unitID, null);
 	}
 	
@@ -74,7 +73,7 @@ public class PlayerController implements IController, PlayerEventsHandler, IPlay
 		}
 		return resul;
 	}
-	//TODO unplement method in a superclass
+	//TODO implement method in a superclass
 	public PlayerModel getPlayer(){
 		return player;
 	}

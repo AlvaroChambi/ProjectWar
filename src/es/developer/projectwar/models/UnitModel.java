@@ -16,21 +16,25 @@ import es.developer.projectwar.utils.UpdateInput;
 public abstract class UnitModel extends MovableModel{
 	private static final String TAG = UnitModel.class.getCanonicalName();
 	private int movement;
+	protected int attackRange;
 	private List<TMXTile> enabledTiles;
 	private List<Sprite> enabledTilesView;
 	private PathModifier pathModifier;
 	private boolean available;
 	private UnitState state;
 	protected List<Command> commands;
-	protected int attackRange;
+	private List<UnitModel> unitsInRange;
+	private boolean onRange;
 	
 	public UnitModel(int id){
 		super();
 		enabledTilesView = new ArrayList<Sprite>();
+		unitsInRange = new ArrayList<UnitModel>();
 		setCommands(new ArrayList<Command>());
 		this.setAvailable(true);
 		this.id = id;
 		this.setTextureType(TextureType.unit);
+		this.setOnRange(false);
 	}
 	
 	/**
@@ -166,4 +170,30 @@ public abstract class UnitModel extends MovableModel{
 		this.attackRange = attackRange;
 	}
 
+	public boolean isOnRange() {
+		return onRange;
+	}
+
+	public void setOnRange(boolean onRange) {
+		this.onRange = onRange;
+		this.notifyListenersUpdate(UpdateInput.UNIT_ON_RANGE);
+	}
+
+	public void addUnitInRange(UnitModel target){
+		if(!unitsInRange.contains(target)){
+			unitsInRange.add(target);
+		}
+	}
+	
+	public void showUnitsInRange(){
+		for(UnitModel target: unitsInRange){
+			target.setOnRange(true);
+		}
+	}
+	
+	public void hideUnitsInRange(){
+		for(UnitModel target: unitsInRange){
+			target.setOnRange(false);
+		}
+	}
 }

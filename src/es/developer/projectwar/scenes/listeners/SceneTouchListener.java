@@ -12,14 +12,13 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.PinchZoomDetector;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
 
-import android.util.Log;
 import es.developer.projectwar.controllers.PlayerEventsHandler;
 import es.developer.projectwar.map.Map;
 import es.developer.projectwar.scenes.camera.ScrollHandler;
 import es.developer.projectwar.scenes.camera.ZoomEventHandler;
 
 public class SceneTouchListener implements IOnSceneTouchListener{
-	private static final String TAG = SceneTouchListener.class.getCanonicalName();
+//	private static final String TAG = SceneTouchListener.class.getCanonicalName();
 	private PinchZoomDetector zoomDetector;
 	private SurfaceScrollDetector scrollDetector;
 	private List<PlayerEventsHandler> listeners;
@@ -52,7 +51,6 @@ public class SceneTouchListener implements IOnSceneTouchListener{
 		case TouchEvent.ACTION_UP:
 			// notify event to listeners
 			this.notifyListeners(pSceneTouchEvent);
-			Log.i(TAG,"action up event!");
 			break;
 		case TouchEvent.ACTION_DOWN:
 			posX = pSceneTouchEvent.getX();

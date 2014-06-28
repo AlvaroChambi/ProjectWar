@@ -2,11 +2,12 @@ package es.developer.projectwar.controllers;
 
 import org.andengine.extension.tmx.TMXTile;
 
+import android.util.Log;
 import es.developer.projectwar.controllers.commands.Command;
 import es.developer.projectwar.models.UnitModel;
 
 public class UnitController implements IController{
-//	private static final String TAG = UnitController.class.getCanonicalName();
+	private static final String TAG = UnitController.class.getCanonicalName();
 	
 	private UnitModel unit;
 	
@@ -29,5 +30,10 @@ public class UnitController implements IController{
 	
 	public void onCommandReceived(Command command){
 		unit.getState().handleInput(command, unit, null);
+	}
+	
+	public void onTargetSelected(UnitModel target){
+		Log.i(TAG, "onTargetSelected");
+		unit.getState().handleInput(Command.SetTarget, target, null);
 	}
 }

@@ -119,6 +119,8 @@ public class GameScene extends SimpleLayoutGameActivity{
 		game = new Game(GameMode.Local);
 		game.setPlayers(players);
 		this.loadPlayers(players, touchListener);
+		//Register the HUD as a player data observer
+		staticDrawer.registerPlayerObserver(menuHUD);
 		menuHUD.setGame(game);
 	}
 	

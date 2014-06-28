@@ -8,6 +8,7 @@ public enum Command {
 	Cancel,
 	Move,
 	UnitInRange,
+	SetTarget,
 	Wait;
 	public static final List<Command> NO_COMMANDS = new ArrayList<Command>();
 }

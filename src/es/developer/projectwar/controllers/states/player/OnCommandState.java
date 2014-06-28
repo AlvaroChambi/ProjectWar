@@ -7,14 +7,15 @@ import es.developer.projectwar.controllers.UnitController;
 import es.developer.projectwar.controllers.commands.Command;
 import es.developer.projectwar.models.PlayerModel;
 
-public class OnCommandState implements PlayerState {
+public class OnCommandState extends PlayerState {
 	private static final String TAG = OnCommandState.class.getCanonicalName();
 	private PlayerState savedState;
-	private UnitController controller;
+	private UnitController unitController;
 	
 	public OnCommandState(UnitController controller, PlayerState state){
-		this.controller = controller;
+		this.unitController = controller;
 		this.savedState = state;
+		this.name = OnCommandState.class.getSimpleName();
 	}
 	
 	@Override
@@ -22,15 +23,16 @@ public class OnCommandState implements PlayerState {
 			TMXTile position, int id, Command command) {	
 		switch(input){
 		case CommandReceived:
-			controller.onCommandReceived(command);
+			unitController.onCommandReceived(command);
 			this.handleCommand(playerModel, command);
 			break;	
 		case OppositeUnitTouched:
-			//TODO implement
+			Log.i(TAG,"handle opposite unit touched");
+			unitController.onTargetSelected(playerModel.getUnit(id));
 			break;
 		case UnitInRange:
 			Log.i(TAG,"Sending UnitInRange notification to the UnitController");
-			controller.onCommandReceived(Command.UnitInRange);
+			unitController.onCommandReceived(Command.UnitInRange);
 			break;
 		default:
 			break;
@@ -39,21 +41,25 @@ public class OnCommandState implements PlayerState {
 		
 	}
 	
-	/*TODO If the command is cancelled or finished we set the player to his previous state, don't like that, all commands should
-	 * be handled for the unit controller*/
+	/*TODO If the command is cancelled or finished we set the player to his previous state(i don't like that, all unit commands should
+	 * be handled for the unit controller)*/
 	private void handleCommand(PlayerModel player, Command command){
 		switch(command){
-		case Cancel:
+		case Cancel:			
 		case Wait:
+			Log.i(TAG, "returning to the previuos state: " + savedState.getName());
 			player.setState(this.savedState);
 			break;
 		default:
+			PlayerState savedState = player.getState();
+			player.setState(new OnCommandState(unitController, savedState));
+			player.getState().enter(player, null);
 			break;
 		}
 	}
 
 	@Override
 	public void enter(PlayerModel player, TMXTile position) {
-		//TODO hide player view
+		Log.i(TAG, "enter");
 	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import android.util.Log;
 import es.developer.projectwar.controllers.states.player.NothingSelectedState;
 import es.developer.projectwar.controllers.states.player.PlayerState;
+import es.developer.projectwar.utils.UpdateInput;
 import es.developer.projectwar.utils.TextureRegionFactory.TextureType;
 
 public class PlayerModel extends MovableModel {
@@ -73,6 +74,7 @@ public class PlayerModel extends MovableModel {
 		boolean result = false;
 		for(UnitModel target: this.getUnits()){
 			if(unit != null && unit.isInAttackRange(target)){
+				unit.addUnitInRange(target);
 				result = true;
 			}
 		}
@@ -165,6 +167,7 @@ public class PlayerModel extends MovableModel {
 	 */
 	public void setState(PlayerState state) {
 		this.state = state;
+		this.notifyListenersUpdate(UpdateInput.STATE_UPDATED);
 	}
 
 	/**
@@ -199,6 +202,7 @@ public class PlayerModel extends MovableModel {
 	 * @param set the player as the active one
 	 */
 	public void setActive(boolean active) {
+		Log.i(TAG, "player : " + this.getName());
 		this.active = active;
 	}
 }

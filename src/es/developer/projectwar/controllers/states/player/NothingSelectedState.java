@@ -6,8 +6,13 @@ import android.util.Log;
 import es.developer.projectwar.controllers.commands.Command;
 import es.developer.projectwar.models.PlayerModel;
 
-public class NothingSelectedState implements PlayerState{
+public class NothingSelectedState extends PlayerState{
 	private static final String TAG = NothingSelectedState.class.getCanonicalName();
+	
+	public NothingSelectedState(){
+		this.name = NothingSelectedState.class.getSimpleName();
+	}
+	
 	@Override
 	public void handleInput(PlayerInput input, PlayerModel playerModel, 
 			TMXTile position, int id, Command command){

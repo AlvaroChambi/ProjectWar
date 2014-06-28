@@ -9,13 +9,14 @@ import es.developer.projectwar.controllers.states.unit.OnSelectedState;
 import es.developer.projectwar.models.PlayerModel;
 import es.developer.projectwar.models.UnitModel;
 
-public class UnitSelectedState implements PlayerState{
+public class UnitSelectedState extends PlayerState{
 	private static final String TAG = UnitSelectedState.class.getCanonicalName();
-	private UnitController controller;
+	private UnitController unitController;
 	private int id;
 	
 	public UnitSelectedState( int id ){
 		this.id = id;
+		this.name = UnitSelectedState.class.getSimpleName();
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ public class UnitSelectedState implements PlayerState{
 		case MapTouched:
 			/*If the move request isn't successfully executed, means that the player has a selected a non-reachable 
 			 * position, so we get into a NothingSelectedState*/
-			if(!controller.onMoveRequest(position)){
+			if(!unitController.onMoveRequest(position)){
 				Log.i(TAG, "move request failed");
 				playerModel.setState( new NothingSelectedState() );
 				playerModel.getState().enter(playerModel, position);
@@ -48,18 +49,30 @@ public class UnitSelectedState implements PlayerState{
 			playerModel.getState().enter(playerModel, position);
 			break;
 		case CommandReceived:
-			//TODO Check for a better way to get back to the previous state
-			//Whenever we get into a onCommand state we save the previous state
-			PlayerState savedState = playerModel.getState();
-			playerModel.setState(new OnCommandState(controller, savedState));
-			//controller.onCommandReceived(command);
+			handleCommand(playerModel, command);
 			break;
 		case UnitInRange:
 			Log.i(TAG, "sending UniInRangeNotification");
-			controller.onCommandReceived(Command.UnitInRange);
+			unitController.onCommandReceived(Command.UnitInRange);
 			break;
 		default:
 			break;
+		}
+	}
+	
+	public void handleCommand(PlayerModel player, Command command){
+		switch(command){
+		case Cancel:
+		case Wait:
+			//When we get a Cancel or Wait command we don't need to get into the CommandState
+			unitController.onCommandReceived(command);
+			break;
+		default:
+			//Whenever we get into a onCommand state we save the previous state
+			PlayerState savedState = player.getState();
+			player.setState(new OnCommandState(unitController, savedState));
+			unitController.onCommandReceived(command);
+			break;		
 		}
 	}
 	
@@ -70,7 +83,7 @@ public class UnitSelectedState implements PlayerState{
 		//Each time we select a unit we instance an UnitController to handle all his inputs
 		unit.setState(new OnSelectedState());
 		unit.getState().enter(unit);
-		controller = new UnitController(unit);
+		unitController = new UnitController(unit);
 		
 		TMXTile unitPosition = unit.getPosition();
 		player.setPosition(unitPosition);

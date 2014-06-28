@@ -19,6 +19,7 @@ import android.util.Log;
 import es.developer.projectwar.map.MapModel;
 import es.developer.projectwar.map.listeners.TilePropertiesListener;
 import es.developer.projectwar.models.PlayerModel;
+import es.developer.projectwar.views.IObserver;
 import es.developer.projectwar.views.PlayerView;
 
 //TODO This drawer shit just doesn't work, must be changed!
@@ -42,6 +43,13 @@ public class StaticGameDrawer implements IDrawer {
 	public void loadResources() {
 		this.loadMapResource();
 		this.loadPlayersResources();
+	}
+	
+	//TODO maybe implement this in the drawer superclass
+	public void registerPlayerObserver(IObserver observer){
+		for(PlayerModel player: players){
+			player.registerObserver(observer);
+		}
 	}
 	
 	public void loadPlayersResources(){

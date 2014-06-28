@@ -17,6 +17,7 @@ public class UnitView extends MovableView{
 	private UnitSprite sprite;
 	private UnitModel model;
 	private MapTilePool tilesPool;
+	private Sprite targetedTile;
 	
 	public UnitView(UnitModel model){
 		this.model = model;
@@ -43,12 +44,25 @@ public class UnitView extends MovableView{
 		case UNIT_UNSELECTED:
 			this.hideEnabledTiles();
 			break;
+		case UNIT_ON_RANGE:
+			this.highlighUnit();
+			break;
 		default:
 			break;
 		}
 	}
 	
-	//Must complete animation for units
+	private void highlighUnit() {
+		if(model.isOnRange()){
+			targetedTile = tilesPool.obtainPoolItem();
+			TMXTile position = model.getPosition();
+			targetedTile.setPosition(position.getTileX(), position.getTileY());
+		}else {
+			tilesPool.recyclePoolItem(targetedTile);
+		}
+	}
+
+	//TODO complete animation for units
 	private void animate(){
 		sprite.animate(new long[]{200, 200, 200}, 3, 5, true);
 	}

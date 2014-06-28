@@ -17,7 +17,15 @@ public class PlayerView extends MovableView {
 	@Override
 	public void onUpdateNotification(UpdateInput input) {
 		TMXTile position = model.getPosition();
-		this.entity.setPosition(position.getTileX(),position.getTileY());
+		switch(input){
+		case POSITION_CHANGED:
+		case UNIT_SELECTED:
+			this.entity.setPosition(position.getTileX(),position.getTileY());
+			break;
+		default:
+			break;
+		
+		}
 	}
 	
 	public void setModel(PlayerModel model){

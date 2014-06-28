@@ -6,7 +6,7 @@ import org.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.andengine.extension.tmx.TMXTile;
 
 import android.util.Log;
-import es.developer.projectwar.controllers.states.unit.OnMoveState;
+import es.developer.projectwar.controllers.states.unit.OnMovedState;
 import es.developer.projectwar.controllers.states.unit.UnitState;
 import es.developer.projectwar.map.Map;
 import es.developer.projectwar.models.UnitModel;
@@ -27,7 +27,7 @@ public class MoveCommand implements UnitCommand, IPathModifierListener{
 		this.savedState = unit.getState();
 		//While the unit is moving we remove the commands
 		unit.setCommands(Command.NO_COMMANDS);
-		unit.setState(new OnMoveState(this));
+		unit.setState(new OnMovedState(this));
 		PathModifier pathModifier = Map.getInstance().generatePath(unit.getPosition(), position);
 		pathModifier.setPathModifierListener(this);
 		unit.setPathModifier(pathModifier);

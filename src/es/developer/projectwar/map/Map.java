@@ -29,6 +29,12 @@ public class Map {
 	private Map(){
 		
 	}
+	
+	public Coordinate getCenter(){
+		Coordinate center = new Coordinate(mapModel.getTmxLayer().getWidth()/2,
+										mapModel.getTmxLayer().getHeight()/2);	
+		return center;
+	}
 
 	public static synchronized Map getInstance(){
 		if( instance == null ){

@@ -74,7 +74,7 @@ public class TextureRegionFactory {
 			sprite = new UnitSprite(0, 0, (ITiledTextureRegion)textureRegion, activity.getVertexBufferObjectManager());
 			break;
 		case tile:
-			//Gets the static reference for the resource
+			//TODO Gets the static reference for the resource
 			textureRegion = this.createTextureRegion(TILE_RESOURCE, texture);
 			sprite = new Sprite(0, 0, textureRegion, activity.getVertexBufferObjectManager());
 			break;
