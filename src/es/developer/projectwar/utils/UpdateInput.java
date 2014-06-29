@@ -9,5 +9,5 @@ public enum UpdateInput {
 	DAY_CHANGED,
 	UNIT_ON_RANGE,
 	STATE_UPDATED,
-	TARGETED_UNIT;
+	UNIT_TARGETED;
 }

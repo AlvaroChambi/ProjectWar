@@ -25,17 +25,22 @@ public class OnAttackState extends UnitState{
 	@Override
 	public boolean handleInput(Command command, UnitModel unit, TMXTile position) {
 		switch(command){
-		case SetTarget:
-			attackCommand.execute(this.unit, unit);
+		case SetTarget:	
+			if(unit.isTargeted()){
+				attackCommand.execute(this.unit, unit);	
+			} else {
+				this.unit.cleanTargets();
+				unit.setTargeted(true);
+				Log.i(TAG, "chaging target");
+			}
+			//attackCommand.execute(this.unit, unit);
 			break;
 		case Cancel:
 			attackCommand.undo();
+			unit.cleanTargets();
 			unit.hideUnitsInRange();
 			unit.setState(savedState);
 			unit.getState().enter(unit);
-			break;
-		case Attack:
-			//TODO implement attack
 			break;
 		default:
 			break;
@@ -46,9 +51,9 @@ public class OnAttackState extends UnitState{
 
 	@Override
 	public void enter(UnitModel unit) {
-		Log.i(TAG, "enter");
 		unit.setCommands(commandSet);
 		unit.showUnitsInRange();
+		unit.getUnitInRange(0).setTargeted(true);
 	}
 
 }

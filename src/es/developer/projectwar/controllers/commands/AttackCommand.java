@@ -12,7 +12,7 @@ public class AttackCommand implements UnitCommand{
 
 	@Override
 	public void undo() {
-		
+		Log.i(TAG, "undo");
 	}
 
 }

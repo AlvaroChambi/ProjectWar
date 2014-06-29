@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
+import org.andengine.util.color.Color;
 
 import android.util.Log;
 import es.developer.projectwar.controllers.PlayerEventsHandler;
@@ -17,19 +18,20 @@ public class UnitView extends MovableView{
 	private UnitSprite sprite;
 	private UnitModel model;
 	private MapTilePool tilesPool;
-	private Sprite targetedTile;
-	
+	private Sprite onRangeTile;
+	private Sprite targetTile;
+
 	public UnitView(UnitModel model){
 		this.model = model;
 	}
-	
+
 	public UnitView(UnitModel model, UnitSprite sprite){
 		this(model);
 		this.sprite = sprite;
 		//Set the animated sprite frame to show
 		sprite.setCurrentTileIndex(6);
 	}
-	
+
 	@Override
 	public void onUpdateNotification(UpdateInput input) {
 		switch(input){
@@ -47,18 +49,36 @@ public class UnitView extends MovableView{
 		case UNIT_ON_RANGE:
 			this.highlighUnit();
 			break;
+		case UNIT_TARGETED:
+			this.onUnitTargeted();
+			break;
 		default:
 			break;
 		}
 	}
-	
+
+	private void onUnitTargeted() {
+		Log.i(TAG," targeting unit");
+		if( model.isTargeted() ){
+			targetTile = tilesPool.obtainPoolItem();
+			TMXTile position = model.getPosition();
+			targetTile.setColor(Color.BLACK);
+			targetTile.setScale(0.5f);
+			targetTile.setPosition(position.getTileX(), position.getTileY());
+		}else if(targetTile != null){
+			tilesPool.recyclePoolItem(targetTile);
+		}
+
+	}
+
 	private void highlighUnit() {
 		if(model.isOnRange()){
-			targetedTile = tilesPool.obtainPoolItem();
+			onRangeTile = tilesPool.obtainPoolItem();
 			TMXTile position = model.getPosition();
-			targetedTile.setPosition(position.getTileX(), position.getTileY());
+			onRangeTile.setColor(Color.RED);
+			onRangeTile.setPosition(position.getTileX(), position.getTileY());
 		}else {
-			tilesPool.recyclePoolItem(targetedTile);
+			tilesPool.recyclePoolItem(onRangeTile);
 		}
 	}
 
@@ -66,7 +86,7 @@ public class UnitView extends MovableView{
 	private void animate(){
 		sprite.animate(new long[]{200, 200, 200}, 3, 5, true);
 	}
-	
+
 	private void showEnabledTiles(){
 		Iterator<TMXTile> iterator = model.getEnabledTiles().iterator();
 		Log.i(TAG, "drawing tiles " + model.getEnabledTiles().size());
@@ -77,7 +97,7 @@ public class UnitView extends MovableView{
 			model.getEnabledTilesView().add(sprite);
 		}
 	}
-	
+
 	private void hideEnabledTiles(){
 		Iterator<Sprite> iterator = model.getEnabledTilesView().iterator();
 		while(iterator.hasNext()){
@@ -86,7 +106,7 @@ public class UnitView extends MovableView{
 		}
 		model.getEnabledTilesView().clear();
 	}
-	
+
 	private void moveView(){
 		//If it has no path defined just place the sprite in the final position, otherwise 
 		//it will follow the path till his destiny.
@@ -101,11 +121,11 @@ public class UnitView extends MovableView{
 			model.setPathModifier(null);
 		}
 	}
-	
+
 	public void setSpritePool(MapTilePool pool){
 		this.tilesPool = pool;
 	}
-	
+
 	public void setListener(PlayerEventsHandler listener){
 		sprite.setListener(listener);
 	}

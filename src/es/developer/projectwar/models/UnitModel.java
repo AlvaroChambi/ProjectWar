@@ -25,6 +25,7 @@ public abstract class UnitModel extends MovableModel{
 	protected List<Command> commands;
 	private List<UnitModel> unitsInRange;
 	private boolean onRange;
+	private boolean targeted;
 	
 	public UnitModel(int id){
 		super();
@@ -140,12 +141,6 @@ public abstract class UnitModel extends MovableModel{
 	}
 	
 	/**
-	 * Sets the unit as targeted
-	 */
-	public void setTargeted(){
-		this.notifyListenersUpdate(UpdateInput.TARGETED_UNIT);
-	}
-	/**
 	 * @return the state
 	 */
 	public UnitState getState() {
@@ -180,20 +175,56 @@ public abstract class UnitModel extends MovableModel{
 	}
 
 	public void addUnitInRange(UnitModel target){
-		if(!unitsInRange.contains(target)){
+		if(!this.equals(target) && !unitsInRange.contains(target)){
 			unitsInRange.add(target);
 		}
 	}
 	
+	public boolean containsUnitInRange(UnitModel target){
+		return unitsInRange.contains(target);
+	}
+	
+	public UnitModel getUnitInRange(int position){
+		return unitsInRange.get(position);
+	}
+	
 	public void showUnitsInRange(){
+		Log.i(TAG , "units in range of unit: " + this.getId());
 		for(UnitModel target: unitsInRange){
+			Log.i(TAG, "target: " + target.getId());
 			target.setOnRange(true);
 		}
+	}
+	
+	public void cleanUnitsInRange(){
+		Log.i(TAG, "cleaning units in range");
+		unitsInRange.clear();
 	}
 	
 	public void hideUnitsInRange(){
 		for(UnitModel target: unitsInRange){
 			target.setOnRange(false);
 		}
+	}
+
+	public void cleanTargets(){
+		for(UnitModel target: unitsInRange){
+			target.setTargeted(false);
+		}
+	} 
+
+	/**
+	 * @return the targeted
+	 */
+	public boolean isTargeted() {
+		return targeted;
+	}
+
+	/**
+	 * @param targeted the targeted to set
+	 */
+	public void setTargeted(boolean targeted) {
+		this.targeted = targeted;
+		this.notifyListenersUpdate(UpdateInput.UNIT_TARGETED);
 	}
 }

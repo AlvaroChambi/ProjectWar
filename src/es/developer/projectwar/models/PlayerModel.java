@@ -56,7 +56,7 @@ public class PlayerModel extends MovableModel {
 		}
 		return building;
 	}
-	
+
 	public UnitModel getUnit(int id){
 		UnitModel unit = null;
 		Iterator<UnitModel> iterator = units.iterator();
@@ -69,18 +69,22 @@ public class PlayerModel extends MovableModel {
 		}
 		return unit;
 	}
-	
+
 	public boolean isUnitInAttackRange(UnitModel unit){
 		boolean result = false;
-		for(UnitModel target: this.getUnits()){
-			if(unit != null && unit.isInAttackRange(target)){
-				unit.addUnitInRange(target);
-				result = true;
-			}
+		if(unit != null){
+			unit.cleanUnitsInRange();
+			for(UnitModel target: this.getUnits()){
+				if(unit.isInAttackRange(target)){
+					unit.addUnitInRange(target);
+					result = true;
+				}
+			}	
 		}
+
 		return result;
 	}
-	
+
 	/**
 	 * @param selectedUnit the selectedUnit to set
 	 */
@@ -94,7 +98,7 @@ public class PlayerModel extends MovableModel {
 			unit.setAvailable(true);
 		}
 	}
-	
+
 	public boolean equals(PlayerModel player){
 		boolean resul = false;
 		if(player.getName().equals(this.getName())) {
@@ -102,7 +106,7 @@ public class PlayerModel extends MovableModel {
 		}
 		return resul;
 	}
-	
+
 	public boolean containsUnit(int id) {
 		boolean resul = false;
 		for(UnitModel unit: units){
@@ -190,7 +194,7 @@ public class PlayerModel extends MovableModel {
 	public UnitModel getSelectedUnit() {
 		return selectedUnit;
 	}
-	
+
 	/**
 	 * @return true if the player is the actual game active player.
 	 */

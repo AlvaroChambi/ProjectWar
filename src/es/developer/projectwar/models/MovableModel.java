@@ -15,6 +15,10 @@ public abstract class MovableModel extends Model{
 	public MovableModel(){
 		super();
 	}
+	
+	public boolean equals(MovableModel model){
+		return (this.id == model.getId());
+	}
 
 	public void setPosition(TMXTile position) {
 		this.tilePosition = position;

@@ -100,9 +100,8 @@ public class Game extends Model{
 	}
 
 	public enum GameState{
-		Started,
-		Paused,
-		Finished;
+		Combat,
+		Map;
 	}
 	
 	/**
