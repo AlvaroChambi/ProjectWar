@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.andengine.entity.modifier.PathModifier;
-import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.shape.IShape;
 import org.andengine.extension.tmx.TMXTile;
 
 import android.util.Log;
@@ -18,7 +18,7 @@ public abstract class UnitModel extends MovableModel{
 	private int movement;
 	protected int attackRange;
 	private List<TMXTile> enabledTiles;
-	private List<Sprite> enabledTilesView;
+	private List<IShape> enabledTilesView;
 	private PathModifier pathModifier;
 	private boolean available;
 	private UnitState state;
@@ -29,7 +29,7 @@ public abstract class UnitModel extends MovableModel{
 	
 	public UnitModel(int id){
 		super();
-		enabledTilesView = new ArrayList<Sprite>();
+		enabledTilesView = new ArrayList<IShape>();
 		unitsInRange = new ArrayList<UnitModel>();
 		setCommands(new ArrayList<Command>());
 		this.setAvailable(true);
@@ -91,13 +91,13 @@ public abstract class UnitModel extends MovableModel{
 	/**
 	 * @return the enabledTilesView
 	 */
-	public List<Sprite> getEnabledTilesView() {
+	public List<IShape> getEnabledTilesView() {
 		return enabledTilesView;
 	}
 	/**
 	 * @param enabledTilesView the enabledTilesView to set
 	 */
-	public void setEnabledTilesView(List<Sprite> enabledTilesView) {
+	public void setEnabledTilesView(List<IShape> enabledTilesView) {
 		this.enabledTilesView = enabledTilesView;
 	}
 	/**

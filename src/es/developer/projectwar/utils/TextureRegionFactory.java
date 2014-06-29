@@ -3,6 +3,7 @@ package es.developer.projectwar.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.shape.IShape;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.texture.TextureOptions;
@@ -11,6 +12,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.util.color.Color;
 
 import es.developer.projectwar.views.sprites.UnitSprite;
 
@@ -51,7 +53,7 @@ public class TextureRegionFactory {
 			break;
 		case tile:
 			textureRegion = BitmapTextureAtlasTextureRegionFactory
-			.createFromAsset(bitmaps.get(2), activity, "p1_tile.png", 0, 0);
+			.createFromAsset(bitmaps.get(2), activity, TILE_RESOURCE, 0, 0);
 			break;
 		default:
 			break;
@@ -74,9 +76,11 @@ public class TextureRegionFactory {
 			sprite = new UnitSprite(0, 0, (ITiledTextureRegion)textureRegion, activity.getVertexBufferObjectManager());
 			break;
 		case tile:
-			//TODO Gets the static reference for the resource
-			textureRegion = this.createTextureRegion(TILE_RESOURCE, texture);
-			sprite = new Sprite(0, 0, textureRegion, activity.getVertexBufferObjectManager());
+//			textureRegion = this.createTextureRegion(TILE_RESOURCE, texture);
+//			sprite = new Sprite(0, 0, textureRegion, activity.getVertexBufferObjectManager());
+			//TODO Just for debug purpose
+			sprite = new Rectangle(0,0,32,32,activity.getVertexBufferObjectManager());
+			sprite.setColor(Color.BLUE);
 			break;
 		default:
 			break;

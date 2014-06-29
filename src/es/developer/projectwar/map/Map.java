@@ -148,20 +148,26 @@ public class Map {
 					TMXTile tmxTile;
 					if(this.isTilePositionValid(tileX + i, tileY + j)){
 						tmxTile = tmxLayer.getTMXTile(tileX + i, tileY + j);
-						tiles.add(tmxTile);
+						this.addTileToList(tiles, tmxTile);
 					}if(this.isTilePositionValid(tileX - i, tileY - j)){
 						tmxTile = tmxLayer.getTMXTile(tileX - i, tileY - j);
-						tiles.add(tmxTile);
+						this.addTileToList(tiles, tmxTile);
 					}if(this.isTilePositionValid(tileX + i, tileY - j)){
 						tmxTile = tmxLayer.getTMXTile(tileX + i, tileY - j);
-						tiles.add(tmxTile);
+						this.addTileToList(tiles, tmxTile);
 					}if(this.isTilePositionValid(tileX - i, tileY + j)){
 						tmxTile = tmxLayer.getTMXTile(tileX - i, tileY + j);
-						tiles.add(tmxTile);
+						this.addTileToList(tiles, tmxTile);
 					}
 				}
 			}
 		}	
 		return tiles;
+	}
+	
+	public void addTileToList(List<TMXTile> list, TMXTile tile){
+		if(!list.contains(tile)){
+			list.add(tile);
+		}
 	}
 }

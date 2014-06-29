@@ -2,7 +2,7 @@ package es.developer.projectwar.views;
 
 import java.util.Iterator;
 
-import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.shape.IShape;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.util.color.Color;
 
@@ -18,8 +18,8 @@ public class UnitView extends MovableView{
 	private UnitSprite sprite;
 	private UnitModel model;
 	private MapTilePool tilesPool;
-	private Sprite onRangeTile;
-	private Sprite targetTile;
+	private IShape onRangeTile;
+	private IShape targetTile;
 
 	public UnitView(UnitModel model){
 		this.model = model;
@@ -76,6 +76,7 @@ public class UnitView extends MovableView{
 			onRangeTile = tilesPool.obtainPoolItem();
 			TMXTile position = model.getPosition();
 			onRangeTile.setColor(Color.RED);
+			onRangeTile.setAlpha(0.3f);
 			onRangeTile.setPosition(position.getTileX(), position.getTileY());
 		}else {
 			tilesPool.recyclePoolItem(onRangeTile);
@@ -92,16 +93,17 @@ public class UnitView extends MovableView{
 		Log.i(TAG, "drawing tiles " + model.getEnabledTiles().size());
 		while(iterator.hasNext()){
 			final TMXTile tile = iterator.next();
-			Sprite sprite = tilesPool.obtainPoolItem();
+			IShape sprite = tilesPool.obtainPoolItem();
+			sprite.setAlpha(0.3f);
 			sprite.setPosition(tile.getTileX(), tile.getTileY());
 			model.getEnabledTilesView().add(sprite);
 		}
 	}
 
 	private void hideEnabledTiles(){
-		Iterator<Sprite> iterator = model.getEnabledTilesView().iterator();
+		Iterator<IShape> iterator = model.getEnabledTilesView().iterator();
 		while(iterator.hasNext()){
-			final Sprite tile = iterator.next();
+			final IShape tile = iterator.next();
 			tilesPool.recyclePoolItem(tile);
 		}
 		model.getEnabledTilesView().clear();

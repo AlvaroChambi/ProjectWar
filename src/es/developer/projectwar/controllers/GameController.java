@@ -95,6 +95,7 @@ public class GameController implements IController, PlayerEventsHandler,
 	@Override
 	public void onUnitInRangeNotification() {
 		Log.i(TAG, "Sending UnitInRangeNotification");
+		//TODO Change it to Just update the list of unit in attack range instead of notify the result
 		this.getController(game.getActualPlayer()).onUnitInRangeNotification();
 	}
 
@@ -124,6 +125,7 @@ public class GameController implements IController, PlayerEventsHandler,
 		}
 	}
 
+	//TODO Change it to just update the list of unit in range for the selected unit
 	private boolean unitInAttackRange(UnitModel unit){
 		boolean result = false;
 		for(PlayerModel player: game.getPlayers()){

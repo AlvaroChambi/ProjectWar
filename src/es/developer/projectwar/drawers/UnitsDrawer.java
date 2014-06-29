@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.shape.IShape;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.ui.activity.BaseGameActivity;
 
@@ -72,9 +73,14 @@ public class UnitsDrawer extends DynamicGameDrawer{
 						model.getResource(), 
 						model.getTextureType());
 		TMXTile position = model.getPosition();
-		entity.setPosition(position.getTileX(), position.getTileY());
+		Sprite sprite = (Sprite)entity;
+		float fixedX = (position.getTileX() + position.getTileWidth()/2) - sprite.getWidth()/2;
+		float fixedy = (position.getTileY() - position.getTileHeight()/2) + sprite.getHeight()/2.5f;
+		entity.setPosition(fixedX, fixedy);
+//		entity.setPosition(position.getTileX() + position.getTileWidth()/2 , 
+//							position.getTileY() - position.getTileHeight()/2);
 		//Scale the sprite to x1.5
-		entity.setScale(1.5f);
+		entity.setScale(1.3f);
 		scene.attachChild(entity);
 		scene.registerTouchArea(entity);
 		return entity;
